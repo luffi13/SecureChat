@@ -50,12 +50,10 @@ public class Read implements Runnable {
                                                 
                                             }
                                             else{
-                                                String message = input.split(": ")[1].split("~~~||~~~")[0];//get message
-                                                String Pubk= input.split("~~~||~~~")[1];//get public key
+                                                //String message = input.split(" ")[1].split("~~~||~~~")[0];//get message
+                                                //String Pubk= input.split("~~~||~~~")[1];//get public key
                                                 ///decrypt
-                                                
-                                                
-                                                
+                                                String message = input.split(" ")[1];
                                                 System.out.println(input);
                                             }
                                         }
