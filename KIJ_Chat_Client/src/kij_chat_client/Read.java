@@ -36,15 +36,15 @@ public class Read implements Runnable {
 				if(this.in.hasNext()) {
                                                                    //IF THE SERVER SENT US SOMETHING
                                         input = this.in.nextLine();
+                                        System.out.println(input);
 					//PRINT IT OUT
                                         if (input.split(" ")[0].toLowerCase().equals("success")) {
                                             if (input.split(" ")[1].toLowerCase().equals("logout")) {
-                                                System.out.println(input);
+                                                //System.out.println(input);
                                                 keepGoing = false;
                                                  
                                             } else if (input.split(" ")[1].toLowerCase().equals("login")) {
-                                                //System.out.println("halo");
-                                                System.out.println(input);
+                                                //System.out.println(input);
                                                 log.clear();
                                                 log.add("true");
                                                 
@@ -56,7 +56,7 @@ public class Read implements Runnable {
                                                 
                                                 
                                                 
-                                                System.out.println(input);
+                                                
                                             }
                                         }
                                         

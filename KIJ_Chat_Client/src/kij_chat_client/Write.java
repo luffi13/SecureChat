@@ -5,12 +5,22 @@
  */
 package kij_chat_client;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 /**
  *
  * @author santen-suru
@@ -21,6 +31,11 @@ public class Write implements Runnable {
         private PrintWriter out;
         boolean keepGoing = true;
         ArrayList<String> log;
+        
+        public String PRIVATE_KEY_FILE = "C:/keys/private_";
+        public String PUBLIC_KEY_FILE = "C:/keys/public_";
+        public String line;
+        public String result="";
         
 	public Write(Scanner chat, PrintWriter out, ArrayList<String> log)
 	{
@@ -45,6 +60,46 @@ public class Write implements Runnable {
             return sb.toString();
         }
         
+        public String generateKey(String keyname) throws NoSuchAlgorithmException, IOException{
+            final KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
+            keyGen.initialize(1024);
+            final KeyPair key = keyGen.generateKeyPair();
+            
+            PRIVATE_KEY_FILE += keyname+".key";
+            PUBLIC_KEY_FILE += keyname+".key";
+            
+            File privateKeyFile = new File(PRIVATE_KEY_FILE);
+            File publicKeyFile = new File(PUBLIC_KEY_FILE);
+            
+            if (privateKeyFile.getParentFile() != null) {
+                privateKeyFile.getParentFile().mkdirs();
+            }
+            privateKeyFile.createNewFile();
+            
+            if (publicKeyFile.getParentFile() != null) {
+                publicKeyFile.getParentFile().mkdirs();
+            }
+            publicKeyFile.createNewFile();
+            
+            ObjectOutputStream privateKeyOS = new ObjectOutputStream(
+                new FileOutputStream(privateKeyFile));
+            privateKeyOS.writeObject(key.getPrivate());
+            privateKeyOS.close();
+            
+            ObjectOutputStream publicKeyOS = new ObjectOutputStream(
+                new FileOutputStream(publicKeyFile));
+            publicKeyOS.writeObject(key.getPublic());
+            publicKeyOS.close();
+            
+           /* FileReader fileReader = new FileReader(PUBLIC_KEY_FILE);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            while((line = bufferedReader.readLine())!=null ){
+                result+=line;
+            }*/
+            return key.getPublic().toString();
+        }
+        
+        
 	@Override
 	public void run()//INHERIT THE RUN METHOD FROM THE Runnable INTERFACE
 	{
@@ -58,8 +113,9 @@ public class Write implements Runnable {
                                 if(input.split(" ")[0].toLowerCase().equals("login")){
                                     String pass = input.split(" ")[2];
                                     String hashpass = ShaHashlogin(pass);
+                                    String coba = generateKey(input.split(" ")[1]);
                                     input = input.split(" ")[0]+" "+input.split(" ")[1]+" "+hashpass;
-                                    //System.out.println(coba);
+                                    System.out.println(coba);
                                 } 
                             
                                 out.println(input);//SEND IT TO THE SERVER
