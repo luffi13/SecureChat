@@ -43,6 +43,7 @@ public class Read implements Runnable {
                                                 keepGoing = false;
                                                  
                                             } else if (input.split(" ")[1].toLowerCase().equals("login")) {
+                                                //System.out.println("halo");
                                                 System.out.println(input);
                                                 log.clear();
                                                 log.add("true");
