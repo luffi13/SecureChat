@@ -36,6 +36,7 @@ public class EncryptionUtil {
   public static final String ALGORITHM = "RSA";
   public final String originaltext;
   public PublicKey publicKey;
+  public String pesan;
 
   /**
    * String to hold the name of the private key file.

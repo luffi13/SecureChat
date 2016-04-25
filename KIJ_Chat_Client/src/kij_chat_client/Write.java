@@ -5,22 +5,52 @@
  */
 package kij_chat_client;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.InvalidKeyException;
+import java.security.Key;
+import java.security.KeyFactory;
+import java.security.spec.X509EncodedKeySpec;
+import java.util.Base64;
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
 /**
  *
  * @author santen-suru
  */
 public class Write implements Runnable {
+    private static Object cipher;
+    private static Object plaintext;
+    private static Object chipertext;
     
 	private Scanner chat;
         private PrintWriter out;
         boolean keepGoing = true;
         ArrayList<String> log;
+        
+        /*public String PRIVATE_KEY_FILE = "C:/keys/private_";
+        public String PUBLIC_KEY_FILE = "C:/keys/public_";
+        public String line;
+        public String result="";*/
         
 	public Write(Scanner chat, PrintWriter out, ArrayList<String> log)
 	{
@@ -45,6 +75,82 @@ public class Write implements Runnable {
             return sb.toString();
         }
         
+        /*public String generateKey(String keyname) throws NoSuchAlgorithmException, IOException{
+            final KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
+            keyGen.initialize(1024);
+            final KeyPair key = keyGen.generateKeyPair();
+            
+            PRIVATE_KEY_FILE += keyname+".key";
+            PUBLIC_KEY_FILE += keyname+".key";
+            
+            File privateKeyFile = new File(PRIVATE_KEY_FILE);
+            File publicKeyFile = new File(PUBLIC_KEY_FILE);
+            
+            if (privateKeyFile.getParentFile() != null) {
+                privateKeyFile.getParentFile().mkdirs();
+            }
+            privateKeyFile.createNewFile();
+            
+            if (publicKeyFile.getParentFile() != null) {
+                publicKeyFile.getParentFile().mkdirs();
+            }
+            publicKeyFile.createNewFile();
+            
+            ObjectOutputStream privateKeyOS = new ObjectOutputStream(
+                new FileOutputStream(privateKeyFile));
+            privateKeyOS.writeObject(key.getPrivate());
+            privateKeyOS.close();
+            
+            ObjectOutputStream publicKeyOS = new ObjectOutputStream(
+                new FileOutputStream(publicKeyFile));
+            publicKeyOS.writeObject(key.getPublic());
+            publicKeyOS.close();
+            
+           /* FileReader fileReader = new FileReader(PUBLIC_KEY_FILE);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            while((line = bufferedReader.readLine())!=null ){
+                result+=line;
+            }
+            return key.getPublic().toString();
+        }*/
+        
+        private static KeyPair keyPair;
+ 
+        private static KeyPair initKeyPair() {
+            try {
+                keyPair = KeyPairGenerator.getInstance("RSA").generateKeyPair();
+            } catch (NoSuchAlgorithmException e) {
+                System.err.println("Algorithm not supported! " + e.getMessage() + "!");
+            }
+
+            return keyPair;
+        }
+        
+        public String encrypt(String plain) throws InvalidKeyException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException
+        {
+            final Cipher cipher = Cipher.getInstance("RSA");
+            final String plaintext = plain;
+            
+            cipher.init(Cipher.ENCRYPT_MODE, keyPair.getPublic());
+            byte[] encryptedBytes = cipher.doFinal(plaintext.getBytes());
+            String chipertext = new String(Base64.getEncoder().encode(encryptedBytes));
+            //System.out.println("encrypted (chipertext) = " + chipertext);
+            return chipertext;
+        }
+        
+        public String decrypt(String chipertext) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException
+        {
+            final Cipher cipher = Cipher.getInstance("RSA");
+            cipher.init(Cipher.DECRYPT_MODE, keyPair.getPrivate());
+            byte[] ciphertextBytes = Base64.getDecoder().decode(chipertext.getBytes());
+            byte[] decryptedBytes = cipher.doFinal(ciphertextBytes);
+            String decryptedString = new String(decryptedBytes);
+            //System.out.println("decrypted (plaintext) = " + decryptedString);
+            System.out.println("public = " + keyPair.getPublic());
+            System.out.println("private = " + keyPair.getPrivate());
+            return decryptedString;
+        }
+        
 	@Override
 	public void run()//INHERIT THE RUN METHOD FROM THE Runnable INTERFACE
 	{
@@ -58,8 +164,28 @@ public class Write implements Runnable {
                                 if(input.split(" ")[0].toLowerCase().equals("login")){
                                     String pass = input.split(" ")[2];
                                     String hashpass = ShaHashlogin(pass);
-                                    input = input.split(" ")[0]+" "+input.split(" ")[1]+" "+hashpass;
-                                    //System.out.println(coba);
+                                    //String coba = generateKey(input.split(" ")[1]);
+                                    initKeyPair();
+                                    Key coba = keyPair.getPublic();
+                                    byte[] pubBytes = coba.getEncoded();
+                                    
+                                    BASE64Encoder encoder = new BASE64Encoder();
+                                    String pubKeyStr = encoder.encode(pubBytes);
+                                    
+                                    String repl = pubKeyStr.replaceAll("(\\r|\\n|\\r\\n)+", "~");
+                                    input = input.split(" ")[0]+" "+input.split(" ")[1]+" "+hashpass+" "+repl;
+                                    //System.out.println(pubKeyStr);
+
+                                    //BASE64Decoder decoder = new BASE64Decoder();
+                                    //byte[] tempPubKey = decoder.decodeBuffer(pubKeyStr);
+                                    
+                                    //System.out.println(input);
+                                    
+                                    //balikin public key
+                                    //X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(sigBytes2);
+                                    //KeyFactory keyFact = KeyFactory.getInstance("RSA");
+                                    //PublicKey pubKey2 = keyFact.generatePublic(x509KeySpec);
+                                    //System.out.println(pubKey2);
                                 } 
                             
                                 out.println(input);//SEND IT TO THE SERVER

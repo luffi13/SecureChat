@@ -2,8 +2,12 @@ package kij_chat_server;
 
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.security.KeyFactory;
+import java.security.PublicKey;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
 import java.util.Scanner;
+import sun.misc.BASE64Decoder;
 
 /** original ->http://www.dreamincode.net/forums/topic/262304-simple-client-and-server-chat-program/
  * 
@@ -51,12 +55,24 @@ public class Client implements Runnable{
                                         // param LOGIN <userName> <pass>
                                         if (input.split(" ")[0].toLowerCase().equals("login") == true) {
                                             String[] vals = input.split(" ");
+                                            String temp = vals[3];
+                                            //System.out.println(repl);
                                             
+                                            //balikin public key
+                                            //String repl = temp.replaceAll("~", "\n");
+                                            //BASE64Decoder decoder = new BASE64Decoder();
+                                            //byte[] tempPubKey = decoder.decodeBuffer(repl);
+                                            
+                                            
+                                            //X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(tempPubKey);
+                                            //KeyFactory keyFact = KeyFactory.getInstance("RSA");
+                                            //PublicKey pubKey2 = keyFact.generatePublic(x509KeySpec); //Public key
+                                            //System.out.println(pubKey2);
                                             for(int i=0;i<_userlist.size();i++)
                                                     {
                                                         if(_userlist.get(i).getSecond().getFirst().equals(vals[1]) && _userlist.get(i).getSecond().getSecond().equals(vals[2]))
                                                         {
-                                                            this.publicKey = _userlist.get(i).getFirst();
+                                                            this.publicKey = temp;
                                                             this.username = _userlist.get(i).getSecond().getFirst();
                                                             break;
                                                         }
@@ -110,6 +126,7 @@ public class Client implements Runnable{
                                                         messageOut += vals[j] + " ";
                                                     }
                                                     System.out.println(this.username + " to " + vals[1] + " : " + messageOut);
+                                                   
                                                     outDest.println(this.username + ": " + messageOut+"~~~||~~~"+ this.publicKey);
                                                     outDest.flush();
                                                     exist = true;
