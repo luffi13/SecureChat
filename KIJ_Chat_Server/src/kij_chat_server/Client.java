@@ -129,7 +129,7 @@ public class Client implements Runnable{
                                                         messageOut += vals[j] + " ";
                                                     }
                                                     System.out.println(this.username + " to " + vals[1] + " : " + messageOut);
-                                                    
+                                                   
                                                     outDest.println(this.username + " : " + messageOut+"#"+ this.publicKey);
                                                     outDest.flush();
                                                     exist = true;
@@ -160,9 +160,7 @@ public class Client implements Runnable{
                                                 int total = group.updateGroup(vals[1], this.username, _grouplist);
                                                 System.out.println("total group: " + total);
                                                 System.out.println("cg " + vals[1] + " by " + this.username + " successed.");
-//                                                System.out.println("success cg in server");
                                                 out.println("SUCCESS cg");
-                                                
                                                 out.flush();
                                             } else {
                                                 System.out.println("cg " + vals[1] + " by " + this.username + " failed.");
