@@ -152,7 +152,7 @@ public class Write implements Runnable {
                                     out.println(Send);//SEND IT TO THE SERVER
                                     //System.out.println(Message);
                                 }
-                                else if(input.split(" ")[0].toLowerCase().equals("cg")){
+                                else {
 //                                    System.out.println("masuk cg client");
                                     out.println(input);
                                 }

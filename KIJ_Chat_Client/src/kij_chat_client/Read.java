@@ -61,6 +61,9 @@ public class Read implements Runnable {
                                             System.out.println(message);
                                             //System.out.println(Pubk);
                                         }
+                                        else {
+                                            System.out.println(input);
+                                        }
                                         
                                 }
                                 
