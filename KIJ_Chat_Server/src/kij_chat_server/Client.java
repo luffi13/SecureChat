@@ -130,7 +130,7 @@ public class Client implements Runnable{
                                                     }
                                                     System.out.println(this.username + " to " + vals[1] + " : " + messageOut);
                                                    
-                                                    outDest.println(this.username + " : " + messageOut+"~~~||~~~"+ this.publicKey);
+                                                    outDest.println(this.username + " : " + messageOut+"#"+ this.publicKey);
                                                     outDest.flush();
                                                     exist = true;
                                                 }

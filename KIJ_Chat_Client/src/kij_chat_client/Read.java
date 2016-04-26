@@ -51,8 +51,9 @@ public class Read implements Runnable {
                                             }
                                         }
                                         else if (input.split(" ")[1].toLowerCase().equals(":")){
-                                            String message = input.split("~~~||~~~")[0];
-                                            System.out.println(input.split(" ")[5].split("~~~||~~~")[0]);
+                                            
+                                            String message = input.split("#")[0];
+                                                
                                             //String message = raw.split(" ~~~||~~~")[0];
                                             //String Pubk= raw.split(" ~~~||~~~")[1];//get public key
                                             //System.out.println(message);
