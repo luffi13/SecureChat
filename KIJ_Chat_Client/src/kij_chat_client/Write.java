@@ -152,6 +152,16 @@ public class Write implements Runnable {
                                     out.println(Send);//SEND IT TO THE SERVER
                                     //System.out.println(Message);
                                 }
+                                else if(input.split(" ")[0].toLowerCase().equals("gm")){
+                                    Message = input.split(" ",3)[2];
+                                    EncryptMsg = encryption.encrypt(Message,privateKey); 
+                                    HashMsg = ShaHash(Message);
+                                    EncrytpHashMsg = encryption.encrypt(HashMsg, privateKey);
+                                    
+                                    Send = input.split(" ")[0]+" "+input.split(" ")[1]+" "+EncryptMsg+"#"+EncrytpHashMsg;
+                                    System.out.println(Send);
+                                    out.println(Send);//SEND IT TO THE SERVER
+                                }
                                 else {
                                     out.println(input);
                                 }
