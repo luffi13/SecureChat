@@ -50,10 +50,10 @@ public class EncryptionRSA {
             return chipertext;
         }
         
-        public String decrypt(String chipertext) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException
+        public String decrypt(String chipertext, Key publicKey) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException
         {
             final Cipher cipher = Cipher.getInstance("RSA");
-            cipher.init(Cipher.DECRYPT_MODE, keyPair.getPrivate());
+            cipher.init(Cipher.DECRYPT_MODE,publicKey);
             byte[] ciphertextBytes = Base64.getDecoder().decode(chipertext.getBytes());
             byte[] decryptedBytes = cipher.doFinal(ciphertextBytes);
             String decryptedString = new String(decryptedBytes);
