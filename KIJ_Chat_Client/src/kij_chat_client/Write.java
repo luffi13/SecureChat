@@ -129,7 +129,6 @@ public class Write implements Runnable {
                                     //String coba = generateKey(input.split(" ")[1]);
                                    
                                     //get public and get private
-                                    encryption.initKeyPair();
                                     Key publicKey = encryption.keyPair.getPublic();
                                     privateKey = encryption.keyPair.getPrivate();
                                     
@@ -146,12 +145,9 @@ public class Write implements Runnable {
                                     //encrypt message and encypt hash message
                                     Message = input.split(" ",3)[2];
                                     EncryptMsg = encryption.encrypt(Message,privateKey); 
-                                    EncrytpHashMsg = ShaHash(Message);
-                                    EncrytpHashMsg = encryption.encrypt(EncrytpHashMsg, privateKey);
                                     HashMsg = ShaHash(Message);
                                     EncrytpHashMsg = encryption.encrypt(HashMsg, privateKey);
                                     
-                                    Send = input.split(" ")[0]+" "+input.split(" ")[1]+" "+EncryptMsg+"&"+EncrytpHashMsg;
                                     Send = input.split(" ")[0]+" "+input.split(" ")[1]+" "+EncryptMsg+"#"+EncrytpHashMsg;
                                     out.println(Send);//SEND IT TO THE SERVER
                                     //System.out.println(Message);

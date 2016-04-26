@@ -87,22 +87,6 @@ public class Read implements Runnable {
                                             String EncryptHashMsg = vals[1].split(" ")[0];
                                             String PubKey = vals[2];
                                             
-<<<<<<< HEAD
-                                            //ambil selain public key
-                                            String message = input.split("#")[0];
-                                                
-                                            //String message = raw.split(" ~~~||~~~")[0];
-                                            //String Pubk= raw.split(" ~~~||~~~")[1];//get public key
-                                            System.out.println(message);
-                                            //System.out.println(Pubk);
-=======
-//                                            //EncryptMsg
-//                                            System.out.println(EncryptMsg);
-//                                            //EncryptHashMsg
-//                                            System.out.println(vals[1]);
-//                                            //PublicKey
-//                                            System.out.println(vals[2]);
-//                                            //PublicKey Plaintext
                                             
                                             String repl = PubKey.replaceAll("~", "\n");
                                             BASE64Decoder decoder = new BASE64Decoder();
@@ -123,9 +107,10 @@ public class Read implements Runnable {
 //                                            System.out.println(DecryptHashMsg);
                                             
                                             if (HashMsg.equals(DecryptHashMsg)){
-                                                System.out.println(username + DecryptMsg);
+                                                System.out.println("aas"+username + DecryptMsg);
+                                                
                                             }               
->>>>>>> f5f1582c88fc4d49f9b37a45cc450e0583cd3e35
+
                                         }
                                         else {
                                             System.out.println(input);
