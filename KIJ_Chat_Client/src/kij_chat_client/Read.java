@@ -56,7 +56,7 @@ public class Read implements Runnable {
                                                 
                                             //String message = raw.split(" ~~~||~~~")[0];
                                             //String Pubk= raw.split(" ~~~||~~~")[1];//get public key
-                                            //System.out.println(message);
+                                            System.out.println(message);
                                             //System.out.println(Pubk);
                                         }
                                         

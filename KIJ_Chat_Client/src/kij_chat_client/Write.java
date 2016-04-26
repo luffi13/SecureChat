@@ -30,6 +30,9 @@ public class Write implements Runnable {
     private static Object cipher;
     private static Object plaintext;
     private static Object chipertext;
+    private Key privateKey;
+    private EncryptionRSA encryption = new EncryptionRSA();
+    
     
 	private Scanner chat;
         private PrintWriter out;
@@ -103,42 +106,7 @@ public class Write implements Runnable {
             return key.getPublic().toString();
         }*/
         
-        private static KeyPair keyPair;
- 
-        private static KeyPair initKeyPair() {
-            try {
-                keyPair = KeyPairGenerator.getInstance("RSA").generateKeyPair();
-            } catch (NoSuchAlgorithmException e) {
-                System.err.println("Algorithm not supported! " + e.getMessage() + "!");
-            }
-
-            return keyPair;
-        }
         
-        public String encrypt(String plain) throws InvalidKeyException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException
-        {
-            final Cipher cipher = Cipher.getInstance("RSA");
-            final String plaintext = plain;
-            
-            cipher.init(Cipher.ENCRYPT_MODE, keyPair.getPublic());
-            byte[] encryptedBytes = cipher.doFinal(plaintext.getBytes());
-            String chipertext = new String(Base64.getEncoder().encode(encryptedBytes));
-            //System.out.println("encrypted (chipertext) = " + chipertext);
-            return chipertext;
-        }
-        
-        public String decrypt(String chipertext) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException
-        {
-            final Cipher cipher = Cipher.getInstance("RSA");
-            cipher.init(Cipher.DECRYPT_MODE, keyPair.getPrivate());
-            byte[] ciphertextBytes = Base64.getDecoder().decode(chipertext.getBytes());
-            byte[] decryptedBytes = cipher.doFinal(ciphertextBytes);
-            String decryptedString = new String(decryptedBytes);
-            //System.out.println("decrypted (plaintext) = " + decryptedString);
-            System.out.println("public = " + keyPair.getPublic());
-            System.out.println("private = " + keyPair.getPrivate());
-            return decryptedString;
-        }
         
 	@Override
 	public void run()//INHERIT THE RUN METHOD FROM THE Runnable INTERFACE
@@ -154,17 +122,26 @@ public class Write implements Runnable {
                                     String pass = input.split(" ")[2];
                                     String hashpass = ShaHashlogin(pass);
                                     //String coba = generateKey(input.split(" ")[1]);
-                                    initKeyPair();
-                                    Key coba = keyPair.getPublic();
-                                    byte[] pubBytes = coba.getEncoded();
+                                    
+                                    
+                                    
+                                    //get public and get private
+                                    Key publicKey = encryption.keyPair.getPublic();
+                                    privateKey = encryption.keyPair.getPrivate();
+                                    
+                                    byte[] pubBytes = publicKey.getEncoded();
                                     
                                     BASE64Encoder encoder = new BASE64Encoder();
                                     String pubKeyStr = encoder.encode(pubBytes);
                                     
                                     String repl = pubKeyStr.replaceAll("(\\r|\\n|\\r\\n)+", "~");
                                     input = input.split(" ")[0]+" "+input.split(" ")[1]+" "+hashpass+" "+repl;
+                                    out.println(input);//SEND IT TO THE SERVER
                                 }
-                                out.println(input);//SEND IT TO THE SERVER
+                                else if(input.split(" ")[0].toLowerCase().equals("pm")){
+                                    out.println(input);//SEND IT TO THE SERVER
+                                    System.out.println(encryption.encrypt(input,privateKey));
+                                }
 				out.flush();//FLUSH THE STREAM
                                 
                                 if (input.contains("logout")) {
