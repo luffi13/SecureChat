@@ -31,6 +31,10 @@ public class Write implements Runnable {
     private static Object plaintext;
     private static Object chipertext;
     private Key privateKey;
+    private String EncryptMsg;
+    private String EncrytpHashMsg;
+    private String Message;
+    private String Send;
     private EncryptionRSA encryption = new EncryptionRSA();
     
     
@@ -51,7 +55,7 @@ public class Write implements Runnable {
                 this.log = log;
 	}
         
-        public String ShaHashlogin(String password) throws NoSuchAlgorithmException{
+        public String ShaHash(String password) throws NoSuchAlgorithmException{
             
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             md.update(password.getBytes());
@@ -120,11 +124,9 @@ public class Write implements Runnable {
                                 
                                 if(input.split(" ")[0].toLowerCase().equals("login")){
                                     String pass = input.split(" ")[2];
-                                    String hashpass = ShaHashlogin(pass);
+                                    String hashpass = ShaHash(pass);
                                     //String coba = generateKey(input.split(" ")[1]);
-                                    
-                                    
-                                    
+                                   
                                     //get public and get private
                                     Key publicKey = encryption.keyPair.getPublic();
                                     privateKey = encryption.keyPair.getPrivate();
@@ -139,8 +141,15 @@ public class Write implements Runnable {
                                     out.println(input);//SEND IT TO THE SERVER
                                 }
                                 else if(input.split(" ")[0].toLowerCase().equals("pm")){
-                                    out.println(input);//SEND IT TO THE SERVER
-                                    System.out.println(encryption.encrypt(input,privateKey));
+                                    //encrypt message and encypt hash message
+                                    Message = input.split(" ",3)[2];
+                                    EncryptMsg = encryption.encrypt(Message,privateKey); 
+                                    EncrytpHashMsg = ShaHash(Message);
+                                    EncrytpHashMsg = encryption.encrypt(EncrytpHashMsg, privateKey);
+                                    
+                                    Send = input.split(" ")[0]+" "+input.split(" ")[1]+" "+EncryptMsg+"&"+EncrytpHashMsg;
+                                    out.println(Send);//SEND IT TO THE SERVER
+                                    //System.out.println(Message);
                                 }
 				out.flush();//FLUSH THE STREAM
                                 
