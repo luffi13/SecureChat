@@ -77,6 +77,9 @@ public class Read implements Runnable {
                                                 log.add("true");
                                                 
                                             }
+                                            else{
+                                                System.out.println(input);
+                                            }
                                         }
                                         else if (input.split(" ")[1].toLowerCase().equals(":")){
                                                
@@ -115,6 +118,8 @@ public class Read implements Runnable {
                                             if (HashMsg.equals(DecryptHashMsg)){
                                                 System.out.println(username + DecryptMsg);
                                             }               
+                                        }else{
+                                            System.out.println(input);
                                         }
                                         
                                 }

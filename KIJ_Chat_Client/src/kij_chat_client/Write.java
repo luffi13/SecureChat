@@ -152,6 +152,10 @@ public class Write implements Runnable {
                                     out.println(Send);//SEND IT TO THE SERVER
                                     //System.out.println(Message);
                                 }
+                                else {
+                                    out.println(input);
+                                }
+                                
 				out.flush();//FLUSH THE STREAM
                                 
                                 if (input.contains("logout")) {
