@@ -6,14 +6,26 @@
 package kij_chat_client;
 
 /*import java.net.Socket;*/
+import java.security.KeyFactory;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Scanner;
+import sun.misc.BASE64Decoder;
 
 /**
  *
  * @author santen-suru
  */
 public class Read implements Runnable {
+        
+        private String DecryptMsg;
+        private String DecryptHashMsg;
+        private String HashMsg;
+        private EncryptionRSA encryption = new EncryptionRSA();
         
         private Scanner in;//MAKE SOCKET INSTANCE VARIABLE
         String input;
@@ -25,6 +37,22 @@ public class Read implements Runnable {
 		this.in = in;
                 this.log = log;
 	}
+        
+        public String ShaHash(String password) throws NoSuchAlgorithmException{
+            
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(password.getBytes());
+
+            byte byteData[] = md.digest();
+
+            //convert the byte to hex format method 1
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < byteData.length; i++) {
+             sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+            }
+     
+            return sb.toString();
+        }
     
         @Override
 	public void run()//INHERIT THE RUN METHOD FROM THE Runnable INTERFACE
@@ -51,13 +79,42 @@ public class Read implements Runnable {
                                             }
                                         }
                                         else if (input.split(" ")[1].toLowerCase().equals(":")){
+                                               
+                                            String[] vals = input.split("#");
+                                            String username = vals[0].split(": ")[0]+ " : ";
+                                            String EncryptMsg = vals[0].split(": ")[1];
+                                            String EncryptHashMsg = vals[1].split(" ")[0];
+                                            String PubKey = vals[2];
                                             
-                                            String message = input.split("#")[0];
-                                                
-                                            //String message = raw.split(" ~~~||~~~")[0];
-                                            //String Pubk= raw.split(" ~~~||~~~")[1];//get public key
-                                            System.out.println(message);
-                                            //System.out.println(Pubk);
+//                                            //EncryptMsg
+//                                            System.out.println(EncryptMsg);
+//                                            //EncryptHashMsg
+//                                            System.out.println(vals[1]);
+//                                            //PublicKey
+//                                            System.out.println(vals[2]);
+//                                            //PublicKey Plaintext
+                                            
+                                            String repl = PubKey.replaceAll("~", "\n");
+                                            BASE64Decoder decoder = new BASE64Decoder();
+                                            byte[] tempPubKey = decoder.decodeBuffer(repl);
+                                            
+                                            X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(tempPubKey);
+                                            KeyFactory keyFact = KeyFactory.getInstance("RSA");
+                                            PublicKey pubKey2 = keyFact.generatePublic(x509KeySpec);
+//                                            System.out.println(pubKey2);
+                                            
+                                            DecryptMsg = encryption.decrypt(EncryptMsg,pubKey2); 
+                                            
+//                                            System.out.println(DecryptMsg);
+                                            HashMsg = ShaHash(DecryptMsg);
+//                                            System.out.println(HashMsg);
+                                            
+                                            DecryptHashMsg = encryption.decrypt(EncryptHashMsg, pubKey2);
+//                                            System.out.println(DecryptHashMsg);
+                                            
+                                            if (HashMsg.equals(DecryptHashMsg)){
+                                                System.out.println(username + DecryptMsg);
+                                            }               
                                         }
                                         
                                 }

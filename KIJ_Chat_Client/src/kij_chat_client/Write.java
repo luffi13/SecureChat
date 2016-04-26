@@ -32,6 +32,7 @@ public class Write implements Runnable {
     private static Object chipertext;
     private Key privateKey;
     private String EncryptMsg;
+    private String HashMsg;
     private String EncrytpHashMsg;
     private String Message;
     private String Send;
@@ -144,10 +145,10 @@ public class Write implements Runnable {
                                     //encrypt message and encypt hash message
                                     Message = input.split(" ",3)[2];
                                     EncryptMsg = encryption.encrypt(Message,privateKey); 
-                                    EncrytpHashMsg = ShaHash(Message);
-                                    EncrytpHashMsg = encryption.encrypt(EncrytpHashMsg, privateKey);
+                                    HashMsg = ShaHash(Message);
+                                    EncrytpHashMsg = encryption.encrypt(HashMsg, privateKey);
                                     
-                                    Send = input.split(" ")[0]+" "+input.split(" ")[1]+" "+EncryptMsg+"&"+EncrytpHashMsg;
+                                    Send = input.split(" ")[0]+" "+input.split(" ")[1]+" "+EncryptMsg+"#"+EncrytpHashMsg;
                                     out.println(Send);//SEND IT TO THE SERVER
                                     //System.out.println(Message);
                                 }
