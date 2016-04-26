@@ -25,6 +25,10 @@ public class EncryptionRSA {
     public static KeyPair keyPair;
 
     public EncryptionRSA() {
+        
+    }
+    
+    public void initKeyPair(){
         try {
                 keyPair = KeyPairGenerator.getInstance("RSA").generateKeyPair();
             } catch (NoSuchAlgorithmException e) {

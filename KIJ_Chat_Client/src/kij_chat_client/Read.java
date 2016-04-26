@@ -36,7 +36,7 @@ public class Read implements Runnable {
 				if(this.in.hasNext()) {
                                                                    //IF THE SERVER SENT US SOMETHING
                                         input = this.in.nextLine();
-                                        //System.out.println(input);
+                                        //System.out.println(input+"|||||");
 					//PRINT IT OUT
                                         if (input.split(" ")[0].toLowerCase().equals("success")) {
                                             if (input.split(" ")[1].toLowerCase().equals("logout")) {
@@ -48,10 +48,12 @@ public class Read implements Runnable {
                                                 log.clear();
                                                 log.add("true");
                                                 
-                                            }
+                                            } else System.out.println(input);
+                                            
                                         }
                                         else if (input.split(" ")[1].toLowerCase().equals(":")){
                                             
+                                            //ambil selain public key
                                             String message = input.split("#")[0];
                                                 
                                             //String message = raw.split(" ~~~||~~~")[0];

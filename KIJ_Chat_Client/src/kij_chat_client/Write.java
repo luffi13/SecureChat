@@ -128,6 +128,7 @@ public class Write implements Runnable {
                                     //String coba = generateKey(input.split(" ")[1]);
                                    
                                     //get public and get private
+                                    encryption.initKeyPair();
                                     Key publicKey = encryption.keyPair.getPublic();
                                     privateKey = encryption.keyPair.getPrivate();
                                     
@@ -151,6 +152,11 @@ public class Write implements Runnable {
                                     out.println(Send);//SEND IT TO THE SERVER
                                     //System.out.println(Message);
                                 }
+                                else if(input.split(" ")[0].toLowerCase().equals("cg")){
+//                                    System.out.println("masuk cg client");
+                                    out.println(input);
+                                }
+                                
 				out.flush();//FLUSH THE STREAM
                                 
                                 if (input.contains("logout")) {
