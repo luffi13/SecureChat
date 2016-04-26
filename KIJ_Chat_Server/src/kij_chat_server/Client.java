@@ -202,7 +202,7 @@ public class Client implements Runnable{
                                                         messageOut += vals[j] + " ";
                                                     }
                                                     System.out.println(this.username + " to alls: " + messageOut);
-                                                    outDest.println(this.username + " <BROADCAST>: " + messageOut+"#"+this.publicKey);
+                                                    outDest.println(this.username + " <BROADCAST>: " + messageOut+"#"+ this.publicKey);
                                                     outDest.flush();
                                                 }
                                             }
