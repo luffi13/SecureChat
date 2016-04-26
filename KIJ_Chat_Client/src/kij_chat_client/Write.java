@@ -159,7 +159,7 @@ public class Write implements Runnable {
                                     EncrytpHashMsg = encryption.encrypt(HashMsg, privateKey);
                                     
                                     Send = input.split(" ")[0]+" "+input.split(" ")[1]+" "+EncryptMsg+"#"+EncrytpHashMsg;
-                                    System.out.println(Send);
+//                                    System.out.println(Send);
                                     out.println(Send);//SEND IT TO THE SERVER
                                 }
                                 else {

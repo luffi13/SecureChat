@@ -56,21 +56,6 @@ public class Client implements Runnable{
                                         if (input.split(" ")[0].toLowerCase().equals("login") == true) {
                                             String[] vals = input.split(" ");
                                             String temp = vals[3];
-                                            //System.out.println(repl);
-                                            
-                                           //X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(tempPubKey);
-                                            //KeyFactory keyFact = KeyFactory.getInstance("RSA");
-                                            //PublicKey pubKey2 = keyFact.generatePublic(x509KeySpec); //Public key
-                                            //balikin public key
-                                            //String repl = temp.replaceAll("~", "\n");
-                                            //BASE64Decoder decoder = new BASE64Decoder();
-                                            //byte[] tempPubKey = decoder.decodeBuffer(repl);
-                                            
-                                            
-                                            //X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(tempPubKey);
-                                            //KeyFactory keyFact = KeyFactory.getInstance("RSA");
-                                            //PublicKey pubKey2 = keyFact.generatePublic(x509KeySpec); //Public key
-                                            //System.out.println(pubKey2);
                                             for(int i=0;i<_userlist.size();i++)
                                                     {
                                                         if(_userlist.get(i).getSecond().getFirst().equals(vals[1]) && _userlist.get(i).getSecond().getSecond().equals(vals[2]))
@@ -191,8 +176,8 @@ public class Client implements Runnable{
                                                                 for (int j = 2; j<vals.length; j++) {
                                                                     messageOut += vals[j] + " ";
                                                                 }
-                                                                System.out.println(this.username + " to " + vals[1] + " group: " + messageOut);
-                                                                outDest.println(this.username + " @ " + vals[1] + " group: " + messageOut);
+                                                                System.out.println(this.username + " to " + vals[1] + " group: " + messageOut);                                     
+                                                                outDest.println(this.username + " @ " + vals[1] + " group: " + messageOut+"#"+ this.publicKey);
                                                                 outDest.flush();
                                                             }
                                                         }

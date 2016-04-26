@@ -64,8 +64,8 @@ public class Read implements Runnable {
 				if(this.in.hasNext()) {
                                                                    //IF THE SERVER SENT US SOMETHING
                                         input = this.in.nextLine();
-                                        //System.out.println(input);
-					//PRINT IT OUT
+                                        
+                                        //PRINT IT OUT
                                         if (input.split(" ")[0].toLowerCase().equals("success")) {
                                             if (input.split(" ")[1].toLowerCase().equals("logout")) {
                                                 System.out.println(input);
@@ -97,6 +97,36 @@ public class Read implements Runnable {
 //                                            System.out.println(vals[2]);
 //                                            //PublicKey Plaintext
                                             
+                                            String repl = PubKey.replaceAll("~", "\n");
+                                            BASE64Decoder decoder = new BASE64Decoder();
+                                            byte[] tempPubKey = decoder.decodeBuffer(repl);
+                                            
+                                            X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(tempPubKey);
+                                            KeyFactory keyFact = KeyFactory.getInstance("RSA");
+                                            PublicKey pubKey2 = keyFact.generatePublic(x509KeySpec);
+//                                            System.out.println(pubKey2);
+                                            
+                                            DecryptMsg = encryption.decrypt(EncryptMsg,pubKey2); 
+                                            
+//                                            System.out.println(DecryptMsg);
+                                            HashMsg = ShaHash(DecryptMsg);
+//                                            System.out.println(HashMsg);
+                                            
+                                            DecryptHashMsg = encryption.decrypt(EncryptHashMsg, pubKey2);
+//                                            System.out.println(DecryptHashMsg);
+                                            
+                                            if (HashMsg.equals(DecryptHashMsg)){
+                                                System.out.println(username + DecryptMsg);
+                                            }               
+                                        } 
+                                        else if (input.split(" ")[1].toLowerCase().equals("@")){
+                                               
+                                            String[] vals = input.split("#");
+                                            String username = vals[0].split(":")[0]+ " ";
+                                            String EncryptMsg = vals[0].split(": ")[1];
+                                            String EncryptHashMsg = vals[1].split(" ")[0];
+                                            String PubKey = vals[2];
+                                 
                                             String repl = PubKey.replaceAll("~", "\n");
                                             BASE64Decoder decoder = new BASE64Decoder();
                                             byte[] tempPubKey = decoder.decodeBuffer(repl);
