@@ -36,28 +36,27 @@ public class Read implements Runnable {
 				if(this.in.hasNext()) {
                                                                    //IF THE SERVER SENT US SOMETHING
                                         input = this.in.nextLine();
-                                        System.out.println(input);
+                                        //System.out.println(input);
 					//PRINT IT OUT
                                         if (input.split(" ")[0].toLowerCase().equals("success")) {
                                             if (input.split(" ")[1].toLowerCase().equals("logout")) {
-                                                //System.out.println(input);
+                                                System.out.println(input);
                                                 keepGoing = false;
                                                  
                                             } else if (input.split(" ")[1].toLowerCase().equals("login")) {
-                                                //System.out.println(input);
+                                                System.out.println(input);
                                                 log.clear();
                                                 log.add("true");
                                                 
                                             }
-                                            else{
-                                                String message = input.split(": ")[1].split("~~~||~~~")[0];//get message
-                                                String Pubk= input.split("~~~||~~~")[1];//get public key
-                                                ///decrypt
-                                                
-                                                
-                                                
-                                                
-                                            }
+                                        }
+                                        else if (input.split(" ")[1].toLowerCase().equals(":")){
+                                            String message = input.split("~~~||~~~")[0];
+                                            System.out.println(input.split(" ")[5].split("~~~||~~~")[0]);
+                                            //String message = raw.split(" ~~~||~~~")[0];
+                                            //String Pubk= raw.split(" ~~~||~~~")[1];//get public key
+                                            //System.out.println(message);
+                                            //System.out.println(Pubk);
                                         }
                                         
                                 }

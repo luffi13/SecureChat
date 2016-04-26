@@ -5,14 +5,8 @@
  */
 package kij_chat_client;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+
 import java.io.PrintWriter;
-import java.math.BigInteger;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -20,18 +14,13 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
-import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.security.InvalidKeyException;
 import java.security.Key;
-import java.security.KeyFactory;
-import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 /**
  *
@@ -174,20 +163,7 @@ public class Write implements Runnable {
                                     
                                     String repl = pubKeyStr.replaceAll("(\\r|\\n|\\r\\n)+", "~");
                                     input = input.split(" ")[0]+" "+input.split(" ")[1]+" "+hashpass+" "+repl;
-                                    //System.out.println(pubKeyStr);
-
-                                    //BASE64Decoder decoder = new BASE64Decoder();
-                                    //byte[] tempPubKey = decoder.decodeBuffer(pubKeyStr);
-                                    
-                                    //System.out.println(input);
-                                    
-                                    //balikin public key
-                                    //X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(sigBytes2);
-                                    //KeyFactory keyFact = KeyFactory.getInstance("RSA");
-                                    //PublicKey pubKey2 = keyFact.generatePublic(x509KeySpec);
-                                    //System.out.println(pubKey2);
-                                } 
-                            
+                                }
                                 out.println(input);//SEND IT TO THE SERVER
 				out.flush();//FLUSH THE STREAM
                                 

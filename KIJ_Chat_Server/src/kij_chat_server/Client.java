@@ -58,6 +58,9 @@ public class Client implements Runnable{
                                             String temp = vals[3];
                                             //System.out.println(repl);
                                             
+                                           //X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(tempPubKey);
+                                            //KeyFactory keyFact = KeyFactory.getInstance("RSA");
+                                            //PublicKey pubKey2 = keyFact.generatePublic(x509KeySpec); //Public key
                                             //balikin public key
                                             //String repl = temp.replaceAll("~", "\n");
                                             //BASE64Decoder decoder = new BASE64Decoder();
@@ -127,7 +130,7 @@ public class Client implements Runnable{
                                                     }
                                                     System.out.println(this.username + " to " + vals[1] + " : " + messageOut);
                                                    
-                                                    outDest.println(this.username + ": " + messageOut+"~~~||~~~"+ this.publicKey);
+                                                    outDest.println(this.username + " : " + messageOut+"~~~||~~~"+ this.publicKey);
                                                     outDest.flush();
                                                     exist = true;
                                                 }
