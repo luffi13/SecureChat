@@ -103,17 +103,11 @@ public class Read implements Runnable {
                                             X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(tempPubKey);
                                             KeyFactory keyFact = KeyFactory.getInstance("RSA");
                                             PublicKey pubKey2 = keyFact.generatePublic(x509KeySpec);
-//                                            System.out.println(pubKey2);
-                                            
+
                                             DecryptMsg = encryption.decrypt(EncryptMsg,pubKey2); 
-                                            
-//                                            System.out.println(DecryptMsg);
                                             HashMsg = ShaHash(DecryptMsg);
-//                                            System.out.println(HashMsg);
-                                            
                                             DecryptHashMsg = encryption.decrypt(EncryptHashMsg, pubKey2);
-//                                            System.out.println(DecryptHashMsg);
-                                            
+                                         
                                             if (HashMsg.equals(DecryptHashMsg)){
                                                 System.out.println(username + DecryptMsg);
                                             }               
@@ -133,16 +127,10 @@ public class Read implements Runnable {
                                             X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(tempPubKey);
                                             KeyFactory keyFact = KeyFactory.getInstance("RSA");
                                             PublicKey pubKey2 = keyFact.generatePublic(x509KeySpec);
-//                                            System.out.println(pubKey2);
-                                            
+
                                             DecryptMsg = encryption.decrypt(EncryptMsg,pubKey2); 
-                                            
-//                                            System.out.println(DecryptMsg);
                                             HashMsg = ShaHash(DecryptMsg);
-//                                            System.out.println(HashMsg);
-                                            
                                             DecryptHashMsg = encryption.decrypt(EncryptHashMsg, pubKey2);
-//                                            System.out.println(DecryptHashMsg);
                                             
                                             if (HashMsg.equals(DecryptHashMsg)){
                                                 System.out.println(username + DecryptMsg);
@@ -162,17 +150,11 @@ public class Read implements Runnable {
                                             X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(tempPubKey);
                                             KeyFactory keyFact = KeyFactory.getInstance("RSA");
                                             PublicKey pubKey2 = keyFact.generatePublic(x509KeySpec);
-//                                            System.out.println(pubKey2);
-                                            
+                                          
                                             DecryptMsg = encryption.decrypt(EncryptMsg,pubKey2); 
-                                            
-//                                            System.out.println(DecryptMsg);
                                             HashMsg = ShaHash(DecryptMsg);
-//                                            System.out.println(HashMsg);
-                                            
                                             DecryptHashMsg = encryption.decrypt(EncryptHashMsg, pubKey2);
-//                                            System.out.println(DecryptHashMsg);
-                                            
+//                                          
                                             if (HashMsg.equals(DecryptHashMsg)){
                                                 System.out.println(username +"<BROADCAST>: " + DecryptMsg);
                                             }               
